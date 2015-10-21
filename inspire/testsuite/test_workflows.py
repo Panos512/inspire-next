@@ -186,7 +186,7 @@ class WorkflowTest(WorkflowTasksTestCase):
     @httpretty.activate
     def test_harvesting_workflow_with_match(self):
         """Test an harvesting workflow when the record already exists."""
-        from invenio.base.globals import cfg
+        from invenio_base.globals import cfg
         from invenio_workflows.api import start
 
         httpretty.HTTPretty.allow_net_connect = False
@@ -208,7 +208,7 @@ class WorkflowTest(WorkflowTasksTestCase):
     @httpretty.activate
     def test_harvesting_workflow_without_match(self):
         """Test a full harvesting workflow."""
-        from invenio.base.globals import cfg
+        from invenio_base.globals import cfg
         from invenio_workflows.api import start
         from inspire.utils.helpers import (
             get_record_from_obj,
@@ -345,7 +345,7 @@ class AgnosticTest(WorkflowTasksTestCase):
     def test_agnostic_deposit(self):
         """A deposition still has the same data model."""
         from invenio_deposit.models import Deposition
-        from invenio.ext.login.legacy_user import UserInfo
+        from invenio_ext.login.legacy_user import UserInfo
 
         u = UserInfo(uid=1)
         d = Deposition.create(u, type='DepositModelTest')

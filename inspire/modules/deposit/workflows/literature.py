@@ -23,8 +23,8 @@ from flask import render_template, current_app
 
 from six import string_types
 
-from invenio.base.globals import cfg
-from invenio.ext.login import UserInfo
+from invenio_base.globals import cfg
+from invenio_ext.login import UserInfo
 from invenio_accounts.models import UserEXT
 from invenio_records.api import Record
 
