@@ -323,7 +323,7 @@ SEARCH_ELASTIC_KEYWORD_MAPPING = {
     "reportnumber": ["report_numbers.value", "arxiv_eprints.value"],
     "refersto": ["references.recid"],
     "experiment": ["accelerator_experiments.experiment"],
-    "country": ["address.country"],
+    "country": ["address.country", "address.country.raw"],
     "wwwlab": ["experiment_name.wwwlab"],
     "subject": ["field_code.value"],
     "phd_advisors": ["phd_advisors.name"],
@@ -339,6 +339,13 @@ SEARCH_ELASTIC_KEYWORD_MAPPING = {
     "980__a": ["collections.primary"],
     "980__b": ["collections.secondary"],
     "542__l": ["information_relating_to_copyright_status.copyright_status"],
+    "conf_subject": ["field_code.value"],
+    "opening_date": ["opening_date"],
+    "continent": ["continent"],
+    "rank": ["rank"],
+    "research_area": ["research_area"],
+    "field_code": ["field_code"],
+    "publisher": ["publisher"],
 }
 
 FACETS_SIZE_LIMIT = 10
@@ -379,7 +386,7 @@ SEARCH_ELASTIC_AGGREGATIONS = {
                 "field": "series"
             }
         },
-        "subject": {
+        "conf_subject": {
             "terms": {
                 "field": "field_code.value"
             }
@@ -418,7 +425,7 @@ SEARCH_ELASTIC_AGGREGATIONS = {
     "institutions": {
         "country": {
             "terms": {
-                "field": "address.country"
+                "field": "address.country.raw"
             }
         }
     },

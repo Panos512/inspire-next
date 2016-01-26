@@ -25,6 +25,7 @@ from dojson.contrib.marc21.utils import create_record
 from invenio.testsuite import InvenioTestCase, make_test_suite, run_test_suite
 from inspirehep.dojson.hep import hep
 from invenio.base.wrappers import lazy_import
+import time
 Export = lazy_import('inspirehep.utils.export.Export')
 
 
@@ -63,7 +64,8 @@ class ExportTests(InvenioTestCase):
         }
 
         self.sample_export_good_citation_line = {
-            'citation_count': '2 citations counted in INSPIRE as of 26 Jan 2016'
+            'citation_count': '2 citations counted in INSPIRE as of ' +
+            time.strftime("%d %b %Y")
         }
 
     def test_citation_key(self):
