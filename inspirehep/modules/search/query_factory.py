@@ -27,6 +27,7 @@
 from __future__ import absolute_import, print_function
 
 import json
+
 import pypeg2
 
 from flask import current_app
@@ -35,8 +36,6 @@ from elasticsearch_dsl import Q
 
 from invenio_query_parser.ast import MalformedQuery
 
-from .config import DEFAULT_FIELDS_BOOSTING
-
 from .parser import Main
 
 from .walkers.pypeg_to_ast import PypegConverter
@@ -44,6 +43,36 @@ from .walkers.spires_to_invenio import SpiresToInvenio
 from .walkers.elasticsearch import ElasticSearchDSL
 from .walkers.elasticsearch_no_keywords import ElasticSearchNoKeywordsDSL
 from .walkers.elasticsearch_no_keywords import QueryHasKeywords
+
+
+def get_fields_by_index(index):
+    if index == 'records-hep':
+        return [
+            "title^3",
+            "title.raw^10",
+            "abstract^2",
+            "abstract.raw^4",
+            "author^10",
+            "author.raw^15",
+            "reportnumber^10",
+            "eprint^10",
+            "doi^10"]
+    elif index == "records-institutions":
+        return ['global_fulltext']
+    elif index == "records-journals":
+        return ['global_fulltext']
+    elif index == "records-experiments":
+        return ['global_fulltext']
+    elif index == "records-data":
+        return ['global_fulltext']
+    elif index == "records-conferences":
+        return ['global_fulltext']
+    elif index == "records-authors":
+        return ['global_fulltext']
+    elif index == "records-jobs":
+        return ['global_fulltext']
+    else:
+        return ['global_fulltext']
 
 
 def inspire_query_factory():
@@ -69,7 +98,7 @@ def inspire_query_factory():
             query.accept(search_walker)
             query = Q('multi_match',
                       query=pattern,
-                      fields=DEFAULT_FIELDS_BOOSTING[index],
+                      fields=get_fields_by_index(index),
                       zero_terms_query="all")
         except QueryHasKeywords:
             query = query.accept(ElasticSearchDSL(

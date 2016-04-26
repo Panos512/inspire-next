@@ -42,12 +42,9 @@ def inspire_search_factory(self, search):
     from invenio_records_rest.sorter import default_sorter_factory
 
     query_string = request.values.get('q', '')
-    # FIXME: what is the proper way to retrieve the collection?
-    # FIXME: what if someone put an invalid cc?
-    index = 'records-{}'.format(request.values.get('cc', 'hep'))
 
     try:
-        search = search.query(IQ(query_string, index=index))
+        search = search.query(IQ(query_string, index=search._index))
     except SyntaxError:
         current_app.logger.debug(
             "Failed parsing query: {0}".format(
